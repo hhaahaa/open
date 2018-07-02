@@ -331,27 +331,6 @@ daum.maps.event.addListener(map, 'dragend', function() {
 daum.maps.event.addListener(map, 'tilesloaded', function() {
     center();
 });
-/*// 셀렉트박스 수정
-function select() {
-    console.log(city+", "+gu);
-    var values = $("#city>option").map(function() { return $(this).text(); });
-    for(var i=1;i<values.length;i++){
-    	if(values[i].indexOf(city)>-1){
-    		$("#city option:contains('"+values[i]+"')").attr('selected','selected');
-    		break;
-    	}else if(city=='충남'){
-    		$("#city option:contains('충청남도')").attr('selected','selected');
-    	}else if(city=='충북'){
-    		$("#city option:contains('충청북도')").attr('selected','selected');
-    	}else if(city=='전남'){
-    		$("#city option:contains('전라남도')").attr('selected','selected');
-    	}else if(city=='전북'){
-    		$("#city option:contains('전라북도')").attr('selected','selected');
-    	}
-    }
-  change($("#city option:selected").val());
-  
-}*/
 
 var clusterer = new daum.maps.MarkerClusterer({
 	map:map,
