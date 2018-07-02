@@ -19,7 +19,7 @@
 	<div style="width: 33.3%; float:left; margin-top: 15px;">
 		<div style="margin:auto;">
 			<input type="checkbox" id="allcheck">전체선택
-			<input type="checkbox" id="view_chk" class="cctv" value="cctv" onclick="changeShow(this.value);" checked="checked">cctv
+			<input type="checkbox" id="view_chk" class="cctv" value="cctv" onclick="changeShow(this.value);">cctv
 			<input type="checkbox" id="view_chk" class="accident" value="accident" onclick="changeShow(this.value);">돌발상황
 			<input type="checkbox" id="view_chk" class="weather" value="weather" onclick="changeShow(this.value);">날씨
 		</div>

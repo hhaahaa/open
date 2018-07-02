@@ -4,8 +4,6 @@ var city, gu = '';
 var cctvFlag, accidentFlag, weatherFlag = false;
 
 $(document).ready(function(){
-	//cctv();
-	//center();
 	cctvFlag = false;
 	toggleCCTV();
 	
