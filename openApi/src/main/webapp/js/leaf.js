@@ -1,11 +1,14 @@
+//날씨 그래프, 교통상황, 돌발사고, 대기 농도
+
 var markers = [];
 var flag=false;
 var city, gu = '';
-var cctvFlag, accidentFlag, weatherFlag = false;
+var cctvFlag, trafficFlag, accidentFlag, weatherFlag = false;
 
 $(document).ready(function(){
-	cctvFlag = false;
+	cctvFlag,trafficFlag = false;
 	toggleCCTV();
+	toggleTraffic();
 	
 	$(".menuView li a img").hover(function(){
 		imgOver(this);
@@ -39,6 +42,20 @@ function toggleCCTV(){
 		$("#toggleCctv").attr('alt', 'CCTV ON');
 		cctv();
 		cctvFlag = true;
+	}
+}
+
+function toggleTraffic(){
+	if(trafficFlag){
+		$("#toggleTraFFic").attr('src', 'http://www.utic.go.kr/contents/images/btn_traffic_info_off.gif');
+		$("#toggleTraFFic").attr('alt', '교통정보 OFF');
+		map.removeOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);    
+		trafficFlag = false;
+	} else{
+		$("#toggleTraFFic").attr('src', 'http://www.utic.go.kr/contents/images/btn_traffic_info_on.gif');
+		$("#toggleTraFFic").attr('alt', '교통정보 ON');
+		map.addOverlayMapTypeId(daum.maps.MapTypeId.TRAFFIC);    
+		trafficFlag = true;
 	}
 }
 
@@ -150,6 +167,7 @@ function hidecctv(){
 	clusterer.removeMarkers(markers);
 }
 // cctv end
+
 //돌발상황 시작
 var image=[];
 var accidents_m = [];
@@ -176,7 +194,11 @@ function accident(){
         	image[4] = '../../image/warning.png';
         	image[5] = '../../image/roadcontrol.png';
         	
+        	$("table").tablesorter(); 
+        	var txt = '<tr><th>지역</th><th>내용</th><th>시작시간</th><th>종료시간</th></tr>';
         	for(var i=0;i<data.list.length;i++){
+        		txt += "<tr><td>"+data.list[i].addressNew+"</td><td>"+data.list[i].incidentTitle+"</td><td>"+data.list[i].startDate+"</td><td>"+data.list[i].endDate+"</td></tr>";
+        		
         		var num = data.list[i].incidenteTypeCd;
         		var marker = new daum.maps.Marker({
 		    			map:map,
@@ -192,7 +214,7 @@ function accident(){
         				placeOverlay.setContent('<div class="placeinfo"><span class="title">내용: '+data.list[i].incidentTitle+'</span><sapn class="date">기간: '+data.list[i].startDate+' ~ '+data.list[i].endDate+'</span></div>');
         				placeOverlay.setPosition(new daum.maps.LatLng(data.list[i].locationDataY, data.list[i].locationDataX));
         				placeOverlay.setMap(map);
-        				
+        				map.panTo(placeOverlay.getPosition());
         			}
         		})(marker,i));
 	        	
@@ -200,6 +222,13 @@ function accident(){
 	        		placeOverlay.setMap(null);
 	        	});
         	}
+        	$("#accidentTableTr").append(txt);
+        	$("table").trigger("update"); 
+            // set sorting column and direction, this will sort on the first and third column 
+            var sorting = [[2,1],[0,0]]; 
+            // sort on the first column 
+            $("table").trigger("sorton",[sorting]); 
+   		
         },
         error:function(request,status,error){
             alert("다시 시도해주세요.\n" + "code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -321,6 +350,14 @@ var mapContainer = document.getElementById('map'),
     };
 
 var map = new daum.maps.Map(mapContainer, mapOption);
+
+var mapTypeControl = new daum.maps.MapTypeControl();
+
+map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+
+var zoomControl = new daum.maps.ZoomControl();
+map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+
 var flag=true;
 var geocoder = new daum.maps.services.Geocoder();
 
@@ -409,12 +446,13 @@ function viewCCTV(title, code){
 	var option = "location=no,status=no,titlebar=no, toolbar=no, menubar=yes,scrollbars=auto,resizable=no,width=800,height=500, dependant=no";
 	var pop = window.open(null,'Dynamic popup', option);
 	var content = 'http://www.utic.go.kr/guide/cctvOpenData.do?key=aTOySLV39WUOQKd5V96SYaZNbpQszG9TqOCWmWDlRo47tovS955lYEiPjGt';
-	pop.document.write('<iframe id="cctv" frameBorder="0" width="800",scrolling=no, height="500" src='+content+'&cctvName='+title+' frameborder="0" allowfullscreen></iframe>')
+	var content2 = 'http://www.utic.go.kr/view/map/openDataCctvStream.jsp?key=aTOySLV39WUOQKd5V96SYaZNbpQszG9TqOCWmWDlRo47tovS955lYEiPjGt&cctvid=L310003&cctvName=내남동입구';
+//	var content = 'http://www.utic.go.kr/view/map/openDataCctvStream.jsp?key=aTOySLV39WUOQKd5V96SYaZNbpQszG9TqOCWmWDlRo47tovS955lYEiPjGt&cctvid=L310062&cctvName=&kind=v&cctvip=null&cctvch=62&id=10&cctvpasswd=213&cctvport=null';
+	pop.document.write('<iframe id="cctv" frameBorder="0" width="800",scrolling=no, height="500" src='+content+' frameborder="0" allowfullscreen></iframe>')
 	pop.document.close();
 
 	pop.addEventListener('load', function(){
-		var f = $(pop.document).find("#cctv").contents().find('#cctvListTb tr td[3] a:contains("'+title+'")').click();
-		console.log(f)
+		var f = $(pop.document).find("#cctv").attr('src',content2)
 	}, false);
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -107,6 +107,16 @@ public class OpenController {
 	public String poly() {
 		return "poly";
 	}
+
+	@RequestMapping(value="/weather")
+	public String weatherGraph() {
+		return "weatherGraph";
+	}
+	
+	@RequestMapping(value="/dust")
+	public String dust() {
+		return "dust";
+	}
 	
 	@RequestMapping("/traf")
 	@ResponseBody

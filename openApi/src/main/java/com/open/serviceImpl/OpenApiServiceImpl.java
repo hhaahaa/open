@@ -362,6 +362,7 @@ public class OpenApiServiceImpl implements OpenApiService{
 				map.put("lane", root.getElementsByTagName("lane").item(i).getTextContent().toString());
 				map.put("roadName", root.getElementsByTagName("roadName").item(i).getTextContent().toString());
 				allList.add(map);
+				
 				System.out.println(map);
 			}
 		} catch (Exception e) {
@@ -410,7 +411,6 @@ public class OpenApiServiceImpl implements OpenApiService{
                 model.put("yCoord", yCoordStr);
                 
                 map.add(model);
-                //System.out.println(model);
             }
         } catch (FileNotFoundException fe) {
             System.out.println("FileNotFoundException >> " + fe.toString());
@@ -430,6 +430,7 @@ public class OpenApiServiceImpl implements OpenApiService{
         try {
 			String key="?" + URLEncoder.encode("authkey","UTF-8") + "=350264dd10fbcc773e94e6";
 			url = url+key;
+			System.out.println(url);
 			
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(url);

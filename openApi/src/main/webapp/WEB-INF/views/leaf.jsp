@@ -6,6 +6,9 @@
 <title>cctv 데이터</title>
 <link rel="stylesheet" href="../../css/leaf.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="../../jqueryTable/jquery.tablesorter.js"></script>
+
+<link rel="stylesheet" href="../../jqueryTable/themes/green/style.css" type="text/css">
 </head>
 <body style="text-align: center;width: 1000px;">
 <div id="addrSearch" style="width: 1000px;">
@@ -60,6 +63,11 @@
 			<li class="char3"><a onclick="javascript:;"><img onclick="stopDraw(this)" alt="초기화" src="http://www.utic.go.kr/contents/images/map/btn_reset_off.gif"></a></li>
 		</ul>
 	</div>
+</div>
+<div>
+	<table id="accidentTableTr">
+		
+	</table>
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6d00eac2ad03dd3b680a9af94cd77521&libraries=services,clusterer"></script>
 <script type="text/javascript" src="../../js/leaf.js"></script>
